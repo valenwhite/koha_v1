@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+
+/* Logo position */
+.header {
+    position: fixed;
+    z-index: 1000;
+}
+
+.logo {
+    filter: invert(1);
+}
+
+/* Bottom nav bar */
+.nav {
+    background: black;
+    border-radius: 5px;
+    z-index: 1000; }
+
+.nav-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+}
+
+/* Fullscreen menu */
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    z-index: 999;
+    transition: transform 0.3s ease;
+}
+
+.font-menu {
+    font-family: "soleil", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.menu.hidden {
+    display: none; }
+
+.fade-in-right {
+    opacity: 0;
+    transform: translateX(20px);
+    animation: fade-in-right 0.5s ease-out forwards;
+}
+
+@keyframes fade-in-right {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }     }
+
+
+.fade-in-sequence>* {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.fade-in-sequence>*:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.fade-in-sequence>*:nth-child(2) {
+    animation-delay: 0.25s;
+}
+
+.fade-in-sequence>*:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes fade-in-up {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }     
+}
+
+body {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+body::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */ }

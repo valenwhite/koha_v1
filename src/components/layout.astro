@@ -1,0 +1,106 @@
+---
+import "../styles/global.css";
+import KOHARain from "../components/KOHARain.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Site</title>
+
+    <link rel="stylesheet" href="https://use.typekit.net/ash7zhr.css" />
+  </head>
+  <body class="bg-gray-200">
+    <!-- Logo (always visible, changes with menu JS) -->
+    <header
+      class="fixed lg:top-5 left-0 right-0 z-50 flex justify-between items-center px-4 lg:px-14"
+    >
+      <img
+        class="hidden lg:block w-40 transition duration-200 z-[1001] logo logo"
+        src="/images/logo_white.png"
+        alt="Logo"
+      />
+
+      <!-- Desktop  Nav -->
+      <nav class="nav hidden lg:flex items-center w-180 py-4 px-15 gap-6">
+        <div class="font-menu text-xl text-white flex justify-between w-full">
+          <div class="flex gap-10 fade-in-right">
+            <a href="/shop">projects.</a>
+            <a href="/activities">people.</a>
+            <a href="/explore">about.</a>
+          </div>
+
+          <div>
+            <a href="/explore">✉️</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Bottom Nav -->
+      <nav
+        class="nav fixed bottom-10 left-1/2 -translate-x-1/2 flex justify-around items-center w-[90%] max-w-xs p-5 lg:hidden text-white"
+      >
+        <button>📽️</button>
+        <button>👤</button>
+        <button>ℹ️</button>
+        <button id="menu-toggle">☰</button>
+      </nav>
+
+      <!-- Mobile Fullscreen Menu -->
+      <div
+        id="menu-overlay"
+        class="fixed inset-0 bg-white z-40 hidden lg:hidden"
+      >
+        <div class="pt-30 p-4 font-menu">
+          <img
+            class="block lg:hidden absolute top-10 w-36 z-40 logo fade-in-right"
+            src="/images/logo_white.png"
+            alt="Logo"
+          />
+          <ul class="flex flex-col gap-5 pt-20 text-5xl fade-in-sequence">
+            <li><a href="/shop">.projects</a></li>
+            <li><a href="/activities">.people</a></li>
+            <li><a href="/explore">.about</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="relative">
+      <!-- Background rain effect -->
+      <div
+        class="absolute hidden inset-0 -z-10 opacity-60 lg:block"
+        style="left: 272px;"
+      >
+        <KOHARain />
+      </div>
+
+      <!-- Image container -->
+      <div
+        class="relative w-screen h-screen lg:w-auto lg:h-auto lg:px-14 lg:pt-[100px]"
+      >
+        <img
+          class="block lg:hidden absolute top-10 left-1/2 -translate-x-1/2 w-36 z-40"
+          src="/images/logo_white.png"
+          alt="Logo"
+        />
+        <img
+          src="/images/the_trick.png"
+          alt="The Trick"
+          class="w-full h-full object-cover object-[78%_center] lg:w-auto lg:h-auto mx-auto rounded fade-in-right"
+        />
+
+        <!-- h1 overlays image on small screens, in flow on large -->
+        <h1
+          class="absolute hidden bottom-40 left-1/2 -translate-x-1/2 text-white text-center text-4xl lg:text-6xl
+               lg:static lg:translate-x-0 lg:text-right lg:text-black lg:mt-4 lg:block font-menu fade-in-right"
+        >
+          ./the trick
+        </h1>
+      </div>
+    </main>
+
+    <script src="/scripts/menu.js" is:inline defer></script>
+  </body>
+</html>
