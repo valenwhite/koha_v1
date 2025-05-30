@@ -1,106 +1,141 @@
 ---
 import "../styles/global.css";
-import KOHARain from "../components/KOHARain.astro";
+
+import EnvelopeIcon from "../components/EnvelopeIcon.astro";
+import MenuIcon from "../components/MenuIcon.astro";
+import CloseIcon from "../components/CloseIcon.astro";
+
+const year = new Date().getFullYear();
 ---
 
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Site</title>
+    <meta name="theme-color" content="#111111" />
+    <title>KOHA Productions | NZ</title>
 
     <link rel="stylesheet" href="https://use.typekit.net/ash7zhr.css" />
   </head>
-  <body class="bg-gray-200">
-    <!-- Logo (always visible, changes with menu JS) -->
+
+  <body class="bg-zinc-200">
+
+    <!-- Wrap the entire layout in a full-height flex column to allow footer stickiness -->
+    <div class="flex flex-col min-h-screen">
+      
+    <!-- Header with logo and navigation -->
     <header
-      class="fixed lg:top-5 left-0 right-0 z-50 flex justify-between items-center px-4 lg:px-14"
+      id="main-header"
+      class="fixed top-5 left-0 right-0 flex justify-between items-center px-4 transition-transform duration-300 z-50 lg:px-14"
     >
-      <img
-        class="hidden lg:block w-40 transition duration-200 z-[1001] logo logo"
-        src="/images/logo_white.png"
-        alt="Logo"
-      />
+      <!-- Logo linking to homepage -->
+      <a href="/" class="z-1001">
+        <img
+          id="main-logo"
+          class="block w-36 logo lg:w-40 lg:transition lg:duration-200 lg:invert"
+          src="/images/logo_white.png"
+          alt="Logo"
+        />
+      </a>
 
-      <!-- Desktop  Nav -->
-      <nav class="nav hidden lg:flex items-center w-180 py-4 px-15 gap-6">
-        <div class="font-menu text-xl text-white flex justify-between w-full">
-          <div class="flex gap-10 fade-in-right">
-            <a href="/shop">projects.</a>
-            <a href="/activities">people.</a>
-            <a href="/explore">about.</a>
+      <!-- Desktop and mobile navigation wrapper -->
+      <nav
+        class="bg-black flex justify-around items-center w-16 py-4 rounded text-white z-1000 lg:static lg:max-w-none lg:py-4 lg:px-15 lg:w-180 lg:gap-6"
+      >
+        <!-- Desktop nav links (only visible at lg size and above) -->
+        <div
+          class="text-xl justify-between items-center w-full gap-10 hidden lg:flex"
+        >
+          <div class="flex gap-15">
+            <a href="/projects" class="hover:text-gray-400">projects.</a>
+            <a href="/people" class="hover:text-gray-400">people.</a>
+            <a href="/about" class="hover:text-gray-400">about.</a>
           </div>
-
           <div>
-            <a href="/explore">✉️</a>
+            <a href="/contact" class="hover:text-gray-400">
+              <EnvelopeIcon />
+            </a>
           </div>
+        </div>
+
+        <!-- Mobile menu toggle buttons (hidden on lg size and above) -->
+        <div class="flex justify-around w-full lg:hidden">
+          <button class="cursor-pointer" id="menu-open">
+            <MenuIcon />
+          </button>
+          <button class="cursor-pointer hidden" id="menu-close">
+            <CloseIcon />
+          </button>
         </div>
       </nav>
 
-      <!-- Mobile Bottom Nav -->
-      <nav
-        class="nav fixed bottom-10 left-1/2 -translate-x-1/2 flex justify-around items-center w-[90%] max-w-xs p-5 lg:hidden text-white"
-      >
-        <button>📽️</button>
-        <button>👤</button>
-        <button>ℹ️</button>
-        <button id="menu-toggle">☰</button>
-      </nav>
-
-      <!-- Mobile Fullscreen Menu -->
+      <!-- Mobile nav links overlay (only visible on small screens) -->
       <div
-        id="menu-overlay"
-        class="fixed inset-0 bg-white z-40 hidden lg:hidden"
+        id="nav-links"
+        class="fixed inset-0 bg-white flex flex-col justify-between h-full pt-30 p-4 font-menu text-5xl text-black hidden fade-in-sequence z-1"
       >
-        <div class="pt-30 p-4 font-menu">
-          <img
-            class="block lg:hidden absolute top-10 w-36 z-40 logo fade-in-right"
-            src="/images/logo_white.png"
-            alt="Logo"
-          />
-          <ul class="flex flex-col gap-5 pt-20 text-5xl fade-in-sequence">
-            <li><a href="/shop">.projects</a></li>
-            <li><a href="/activities">.people</a></li>
-            <li><a href="/explore">.about</a></li>
-          </ul>
+        <!-- Primary navigation links -->
+        <div class="flex flex-col gap-5 items-start text-left w-max">
+          <a href="/projects" class="hover:text-gray-400">projects.</a>
+          <a href="/people" class="hover:text-gray-400">people.</a>
+          <a href="/about" class="hover:text-gray-400">about.</a>
+        </div>
+        <!-- Contact link positioned lower -->
+        <div class="mb-auto mt-40">
+          <a href="/contact" class="hover:text-gray-400 lg:hidden">contact.</a>
         </div>
       </div>
     </header>
 
-    <main class="relative">
-      <!-- Background rain effect -->
-      <div
-        class="absolute hidden inset-0 -z-10 opacity-60 lg:block"
-        style="left: 272px;"
-      >
-        <KOHARain />
-      </div>
-
-      <!-- Image container -->
-      <div
-        class="relative w-screen h-screen lg:w-auto lg:h-auto lg:px-14 lg:pt-[100px]"
-      >
-        <img
-          class="block lg:hidden absolute top-10 left-1/2 -translate-x-1/2 w-36 z-40"
-          src="/images/logo_white.png"
-          alt="Logo"
-        />
-        <img
-          src="/images/the_trick.png"
-          alt="The Trick"
-          class="w-full h-full object-cover object-[78%_center] lg:w-auto lg:h-auto mx-auto rounded fade-in-right"
-        />
-
-        <!-- h1 overlays image on small screens, in flow on large -->
-        <h1
-          class="absolute hidden bottom-40 left-1/2 -translate-x-1/2 text-white text-center text-4xl lg:text-6xl
-               lg:static lg:translate-x-0 lg:text-right lg:text-black lg:mt-4 lg:block font-menu fade-in-right"
-        >
-          ./the trick
-        </h1>
-      </div>
+    <!-- Main content injected from each page -->
+    <main class="flex-grow">
+      <slot />
     </main>
 
+    <!-- Footer (hidden on mobile homepage) -->
+    <footer
+      class={`w-full py-20 mt-35 text-black gap-4 flex flex-col items-center justify-center ${
+        Astro.url.pathname === "/" ? "hidden lg:flex" : "flex"
+      }`}
+    >
+      <!-- Dynamic copyright year -->
+      <p class="text-center soleil text-lg">
+        © The KOHA Project {year}
+      </p>
+
+      <!-- Instagram link -->
+      <a
+        href="https://www.instagram.com/the_koha_project/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="/images/Instagram_Glyph_Black.svg"
+          alt="Instagram logo"
+          width="20"
+        />
+      </a>
+
+    </footer>
+
+    <!-- Load navigation toggle logic -->
     <script src="/scripts/menu.js" is:inline defer></script>
+
+    <!-- Resize listener to reset mobile menu on large screens -->
+    <script is:inline>
+      const navLinks = document.getElementById("nav-links");
+      const menuOpen = document.getElementById("menu-open");
+      const menuClose = document.getElementById("menu-close");
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth >= 1024) {
+          navLinks.classList.add("hidden");
+          menuClose.classList.add("hidden");
+          menuOpen.classList.remove("hidden");
+        }
+      });
+    </script>
+    </div>
   </body>
 </html>

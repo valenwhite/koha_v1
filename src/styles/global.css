@@ -4,19 +4,10 @@
 /* Logo position */
 .header {
     position: fixed;
-    z-index: 1000;
 }
 
-.logo {
-    filter: invert(1);
-}
 
 /* Bottom nav bar */
-.nav {
-    background: black;
-    border-radius: 5px;
-    z-index: 1000; }
-
 .nav-btn {
     background: none;
     border: none;
@@ -36,7 +27,7 @@
     transition: transform 0.3s ease;
 }
 
-.font-menu {
+.soleil {
     font-family: "soleil", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -88,6 +79,8 @@ body {
     /* Firefox */
     -ms-overflow-style: none;
     /* IE and Edge */
+    overflow: auto;
+    /* Ensures scrolling is allowed */
 }
 
 body::-webkit-scrollbar {

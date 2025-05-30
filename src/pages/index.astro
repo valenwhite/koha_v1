@@ -1,7 +1,105 @@
 ---
+// Import the main layout wrapper and background rain component
 import Layout from "../components/Layout.astro";
+import KOHARain from "../components/KOHARain.astro";
 ---
 
 <Layout>
+  <!-- Background rain effect (visible only on large screens) -->
+  <div
+    class="absolute inset-0 opacity-60 hidden -z-10 lg:block"
+    style="left: 272px;"
+  >
+    <KOHARain />
+  </div>
 
+  <!-- Main image container -->
+  <div
+    class="relative w-screen h-screen overflow-hidden lg:w-auto lg:h-auto lg:px-14 lg:pt-[100px]"
+  >
+    <!-- Image layer with background blur for visual depth -->
+    <div class="relative w-full aspect-[4992/2072]">
+      <!-- Blurred duplicate image placed behind for a soft glow effect -->
+
+      <!-- Main foreground image -->
+      <img
+        id="rotating-image"
+        src="/images/mother_hood.jpg"
+        alt="The Trick"
+        class="relative w-full h-full mx-auto z-10 object-cover object-[78%_center] rounded fade-in-right"
+      />
+    </div>
+
+    <div
+      class="absolute bottom-5 right-4 z-20 flex flex-col items-end lg:hidden"
+      id="mobile-titles"
+    >
+      <div class="flex items-start gap-2 transition-all" data-title-group>
+        <p class="text-gray-400 font-sans mt-1 text-md md:text-lg">2024</p>
+        <h1 class="text-white text-6xl soleil fade-in-right">MOTHER HOOD</h1>
+      </div>
+      <div class="flex items-start gap-2 transition-all" data-title-group>
+        <p class="text-gray-400 font-sans mt-1 text-md md:text-lg">2020</p>
+        <h1 class="text-white text-6xl soleil fade-in-right">THE PACT</h1>
+      </div>
+      <div class="flex items-start gap-2 transition-all" data-title-group>
+        <p class="text-gray-400 font-sans mt-1 text-md md:text-lg">2018</p>
+        <h1 class="text-white text-6xl soleil fade-in-right">THE TRICK</h1>
+      </div>
+    </div>
+
+    <div class="hidden lg:flex lg:flex-col lg:items-end lg:mt-4 lg:text-right">
+      <span id="desktop-title-year" class="text-gray-400 font-sans text-md">2018</span>
+      <h1 id="desktop-title" class="text-black text-6xl soleil fade-in-right">THE TRICK</h1>
+    </div>
+  </div>
+
+  <script is:inline>
+    const image = document.getElementById("rotating-image");
+    const sources = [
+      "/images/mother_hood.jpg",
+      "/images/the-pact.png",
+      "/images/the_trick.png",
+    ];
+    let index = 0;
+
+    const titleMap = [
+      { year: "2024", title: "MOTHER HOOD" },
+      { year: "2020", title: "THE PACT" },
+      { year: "2018", title: "THE TRICK" },
+    ];
+    const titleEl = document.getElementById("desktop-title");
+    const yearEl = document.getElementById("desktop-title-year");
+
+    function updateTitle(index) {
+      if (titleEl && yearEl) {
+        titleEl.textContent = titleMap[index].title;
+        yearEl.textContent = titleMap[index].year;
+      }
+    }
+
+    setInterval(() => {
+      index = (index + 1) % sources.length;
+      image.src = sources[index];
+      updateTitle(index);
+    }, 6000);
+
+    updateTitle(index);
+  </script>
 </Layout>
+
+<!-- Responsive menu state reset script -->
+<script is:inline>
+  const navLinks = document.getElementById("nav-links");
+  const menuOpen = document.getElementById("menu-open");
+  const menuClose = document.getElementById("menu-close");
+
+  // When resizing to desktop, ensure the mobile menu is closed
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 1024) {
+      navLinks.classList.add("hidden");
+      menuClose.classList.add("hidden");
+      menuOpen.classList.remove("hidden");
+    }
+  });
+</script>
