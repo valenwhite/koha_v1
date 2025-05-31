@@ -2,6 +2,7 @@
 // Import the main layout wrapper and background rain component
 import BaseLayout from "../layouts/BaseLayout.astro";
 import KOHARain from "../components/KOHARain.astro";
+import KOHARainNoScale from "../components/KOHARainNoScale.astro";
 import "../styles/global.css";
 const titleMap = [
   { year: "2024", title: "MOTHER HOOD" },
@@ -24,51 +25,39 @@ const titleMap = [
   <div
     class="relative w-screen h-screen overflow-hidden lg:w-auto lg:h-auto lg:px-14 lg:pt-[100px]"
   >
+    
     <!-- Image container -->
-    <div class="relative w-full h-full lg:aspect-[4992/2072]">
+    <div
+      class="relative w-full h-full lg:rounded lg:aspect-[4992/2072] overflow-hidden"
+    >
       <!-- Image which updates every 6 seconds -->
       <img
         id="rotating-image"
         src="/images/mother_hood.jpg"
         alt="The Trick"
-        class="fade-in-right relative mx-auto z-10 h-full w-full object-cover object-[78%_center] lg:rounded"
+        class="fade-zoom-in relative mx-auto z-10 h-full w-full object-cover object-[78%_center]"
       />
     </div>
 
-    <!-- Desktop version: shows all titles at once, styles active differently -->
     <div
-      class="hidden lg:flex bottom-5 right-4 z-20 flex-col items-end lg:static lg:pt-3"
-      id="desktop-titles"
+      id="shared-titles"
+      class="absolute bottom-50 left-4 z-20 flex flex-col gap-10 lg:items-end lg:gap-0 lg:right-4 lg:flex lg:static lg:gap-0 lg:pt-3"
     >
-      {
-        titleMap.map((item, i) => (
-          // Individual title container with year + title
-          <div
-            class="flex items-start gap-1 transition-all fade-in-left"
-            data-title-group
-            data-index={i}
-          >
-            <p class="font-sans mt-[0.20em] text-md text-gray-400">
-              {item.year}
-            </p>
-            <h1 class="text-6xl soleil text-black">{item.title}</h1>
-          </div>
-        ))
-      }
-    </div>
-
-    <!-- Mobile version: single container, content updated via JS -->
-    <div
-      id="mobile-titles"
-      class="absolute bottom-60 right-4 z-20 flex justify-end lg:hidden"
-    >
-      <div
-        class="absolute flex flex-col items-end py-2"
-        data-title-group
+      <h1
+        id="shared-title"
+        class="text-6xl soleil text-white lg:text-black text-left lg:text-right"
       >
-      <h1 id="mobile-title" class="text-5xl text-white soleil text-right text-nowrap"></h1>
-      <span id="mobile-year" class="font-sans text-md text-gray-200 text-right"></span>
-        
+      </h1>
+      <p
+        id="shared-year"
+        class="font-sans font-semibold text-lg text-gray-200 lg:text-gray-500 text-left lg:text-right lg:self-end"
+      >
+      </p>
+      <div
+        class="fixed z-50 invert rotate-270  translate-x-36 -translate-y-75.5 scale-50 pointer-events-none select-none lg:hidden"
+        aria-hidden="true"
+      >
+        <KOHARainNoScale />
       </div>
     </div>
   </div>
@@ -86,41 +75,49 @@ const titleMap = [
 </BaseLayout>
 
 <script is:inline>
-const desktopGroups = document.querySelectorAll(
-  "#desktop-titles [data-title-group]"
-);
+  const images = [
+    "/images/mother_hood.jpg",
+    "/images/the_pact.png",
+    "/images/the_trick.png",
+  ];
 
-const images = [
-  "/images/mother_hood.jpg",
-  "/images/the_pact.png",
-  "/images/the_trick.png",
-];
+  const backgroundDiv = document.querySelector(".dynamic-bg");
+  const bgStyles = [
+    "from-[#d334d3] to-[#344ed3]", // mother_hood.jpg
+    "from-[#344ed3] to-[#60a5fa]", // the_pact.png
+    "from-[#d3a634] to-[#d36e34]", // the_trick.png
+  ];
 
-const backgroundDiv = document.querySelector(".dynamic-bg");
-const bgStyles = [
-  "from-[#d334d3] to-[#344ed3]", // mother_hood.jpg
-  "from-[#344ed3] to-[#60a5fa]", // the_pact.png
-  "from-[#d3a634] to-[#d36e34]", // the_trick.png
-];
+  const titleMap = [
+    { year: "2024", title: "MOTHER HOOD" },
+    { year: "2020", title: "THE PACT" },
+    { year: "2018", title: "THE TRICK" },
+  ];
+  let activeIndex = 0;
 
-const titleMap = [
-  { year: "2024", title: "MOTHER HOOD" },
-  { year: "2020", title: "THE PACT" },
-  { year: "2018", title: "THE TRICK" },
-];
-let activeIndex = 0;
-
-  function updateDesktopTitles(index) {
+  function updateTitles(index) {
     const img = document.getElementById("rotating-image");
+    const titleEl = document.getElementById("shared-title");
+    const yearEl = document.getElementById("shared-year");
+
     if (img) {
       img.src = images[index];
-      img.classList.remove("fade-in-right", "fade-in-std");
+      img.classList.remove(
+        "fade-in-right",
+        "fade-in-std",
+        "zoom-in",
+        "fade-zoom-in"
+      );
       void img.offsetWidth;
-      if (window.innerWidth < 1024) {
-        img.classList.add("fade-in-std");
-      } else {
-        img.classList.add("fade-in-right");
-      }
+      img.classList.add("fade-zoom-in");
+    }
+
+    if (titleEl) {
+      titleEl.textContent = titleMap[index].title;
+    }
+
+    if (yearEl) {
+      yearEl.textContent = titleMap[index].year;
     }
 
     if (backgroundDiv) {
@@ -131,50 +128,17 @@ let activeIndex = 0;
         ...bgStyles[index].split(" ")
       );
     }
-
-    desktopGroups.forEach((group, i) => {
-      if (i === index) {
-        group.classList.remove("hidden");
-
-        const title = group.querySelector("h1");
-        const year = group.querySelector("p");
-
-        if (title) void title.offsetHeight;
-        if (year) void year.offsetHeight;
-      } else {
-        group.classList.add("hidden");
-      }
-    });
-  }
-
-  function updateMobileTitles(index) {
-    const titleEl = document.getElementById("mobile-title");
-    const yearEl = document.getElementById("mobile-year");
-    if (titleEl) titleEl.textContent = titleMap[index].title;
-    if (yearEl) yearEl.textContent = titleMap[index].year;
   }
 
   // Initial update on load
   requestAnimationFrame(() => {
-    updateDesktopTitles(activeIndex);
-    updateMobileTitles(activeIndex);
+    updateTitles(activeIndex);
   });
+  document.body.style.overflowY = "auto";
 
-  let lastIsDesktop = window.innerWidth >= 1024;
-
-  window.addEventListener("resize", () => {
-    const isNowDesktop = window.innerWidth >= 1024;
-    if (isNowDesktop !== lastIsDesktop) {
-      updateDesktopTitles(activeIndex);
-      updateMobileTitles(activeIndex);
-      lastIsDesktop = isNowDesktop;
-    }
-  });
-
-  // Cycle both desktop and mobile logic every 6 seconds
+  // Cycle title and image every 6 seconds
   setInterval(() => {
-    activeIndex = (activeIndex + 1) % desktopGroups.length;
-    updateDesktopTitles(activeIndex);
-    updateMobileTitles(activeIndex);
+    activeIndex = (activeIndex + 1) % titleMap.length;
+    updateTitles(activeIndex);
   }, 6000);
 </script>

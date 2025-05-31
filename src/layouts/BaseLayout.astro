@@ -22,8 +22,6 @@ const year = new Date().getFullYear();
   <body class="bg-zinc-200">
     <!-- Wrap the entire layout in a full-height flex column to allow footer stickiness -->
     <div class="flex flex-col min-h-screen">
-
-      
       <!-- Header with logo and navigation -->
       <header
         id="main-header"
@@ -33,7 +31,7 @@ const year = new Date().getFullYear();
         <a href="/" class="z-1001">
           <img
             id="main-logo"
-            class="block w-36 logo lg:w-40 lg:transition lg:duration-200 lg:invert"
+            class="block w-36 logo lg:w-40 lg:transition lg:duration-200 js-logo"
             src="/images/logo_white.png"
             alt="Logo"
           />
@@ -111,8 +109,6 @@ const year = new Date().getFullYear();
             >
           </div>
         </div>
-
-        
       </header>
 
       <!-- Main content injected from each page -->
@@ -150,6 +146,31 @@ const year = new Date().getFullYear();
             menuClose.classList.add("hidden");
             menuOpen.classList.remove("hidden");
           }
+        });
+      </script>
+
+      <script is:inline>
+        const logo = document.querySelector(".js-logo");
+
+        function updateLogoInvert() {
+          const path = window.location.pathname;
+          if (path === "/") {
+            logo.classList.remove("invert");
+            logo.classList.add("lg:invert");
+          } else {
+            logo.classList.add("invert");
+            logo.classList.remove("lg:invert");
+          }
+        }
+
+        window.addEventListener("load", updateLogoInvert);
+        window.addEventListener("popstate", updateLogoInvert);
+
+        // If using SPA-like routing, also listen to link clicks
+        document.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            setTimeout(updateLogoInvert, 100); // Delay to allow route change
+          });
         });
       </script>
     </div>

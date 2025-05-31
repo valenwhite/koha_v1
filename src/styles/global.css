@@ -105,3 +105,18 @@ body::-webkit-scrollbar {
     color: transparent;
     opacity: 0.7;
     -webkit-text-stroke: 0.5px rgb(137, 137, 137);   }
+
+
+@keyframes fade-zoom-in {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.035);
+    }
+}
+
+.fade-zoom-in {
+    animation: fade-zoom-in 0.2s ease-out forwards;
+    transform-origin: center;     }
