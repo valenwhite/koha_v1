@@ -1,6 +1,6 @@
 ---
 // Import the main layout wrapper and background rain component
-import Layout from "../components/Layout.astro";
+import BaseLayout from "../layouts/baseLayout.astro";
 import KOHARain from "../components/KOHARain.astro";
 import "../styles/global.css";
 const titleMap = [
@@ -11,7 +11,7 @@ const titleMap = [
 ---
 
 <!-- Layout wrapper for consistent page structure -->
-<Layout>
+<BaseLayout>
   <!-- Rain animation for desktop background (visible only on large screens) -->
   <div
     class="absolute hidden inset-0 opacity-60 -z-10 lg:block"
@@ -37,7 +37,7 @@ const titleMap = [
 
     <!-- Desktop version: shows all titles at once, styles active differently -->
     <div
-      class="hidden lg:flex lg:absolute bottom-5 right-4 z-20 flex-col items-end lg:static lg:pt-3"
+      class="hidden lg:flex bottom-5 right-4 z-20 flex-col items-end lg:static lg:pt-3"
       id="desktop-titles"
     >
       {
@@ -78,7 +78,7 @@ const titleMap = [
       }
     </div>
   </div>
-</Layout>
+</BaseLayout>
 
 <script is:inline>
   const desktopGroups = document.querySelectorAll(
