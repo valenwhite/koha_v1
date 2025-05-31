@@ -9,7 +9,6 @@ const year = new Date().getFullYear();
 ---
 
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,122 +19,122 @@ const year = new Date().getFullYear();
   </head>
 
   <body class="bg-zinc-200">
-
     <!-- Wrap the entire layout in a full-height flex column to allow footer stickiness -->
     <div class="flex flex-col min-h-screen">
-      
-    <!-- Header with logo and navigation -->
-    <header
-      id="main-header"
-      class="fixed top-5 left-0 right-0 flex justify-between items-center px-4 transition-transform duration-300 z-50 lg:px-14"
-    >
-      <!-- Logo linking to homepage -->
-      <a href="/" class="z-1001">
-        <img
-          id="main-logo"
-          class="block w-36 logo lg:w-40 lg:transition lg:duration-200 lg:invert"
-          src="/images/logo_white.png"
-          alt="Logo"
-        />
-      </a>
-
-      <!-- Desktop and mobile navigation wrapper -->
-      <nav
-        class="bg-black flex justify-around items-center w-16 py-4 rounded text-white z-1000 lg:static lg:max-w-none lg:py-4 lg:px-15 lg:w-180 lg:gap-6"
+      <!-- Header with logo and navigation -->
+      <header
+        id="main-header"
+        class="fixed top-5 left-0 right-0 flex justify-between items-center px-4 transition-transform duration-300 z-50 lg:px-14"
       >
-        <!-- Desktop nav links (only visible at lg size and above) -->
-        <div
-          class="text-xl justify-between items-center w-full gap-10 hidden lg:flex"
+        <!-- Logo linking to homepage -->
+        <a href="/" class="z-1001">
+          <img
+            id="main-logo"
+            class="block w-36 logo lg:w-40 lg:transition lg:duration-200 lg:invert"
+            src="/images/logo_white.png"
+            alt="Logo"
+          />
+        </a>
+
+        <!-- Desktop and mobile navigation wrapper -->
+        <nav
+          class="bg-black flex justify-around items-center w-16 py-4 rounded text-white z-1000 lg:static lg:max-w-none lg:py-4 lg:px-15 lg:w-180 lg:gap-6"
         >
-          <div class="flex gap-15">
+          <!-- Desktop nav links (only visible at lg size and above) -->
+          <div
+            class="text-xl justify-between items-center w-full gap-10 hidden lg:flex"
+          >
+            <div class="flex gap-15">
+              <a href="/projects" class="hover:text-gray-400">projects.</a>
+              <a href="/people" class="hover:text-gray-400">people.</a>
+              <a href="/about" class="hover:text-gray-400">about.</a>
+            </div>
+            <div>
+              <a href="/contact" class="hover:text-gray-400">
+                <EnvelopeIcon />
+              </a>
+            </div>
+          </div>
+
+          <!-- Mobile menu toggle buttons (hidden on lg size and above) -->
+          <div class="flex justify-around w-full lg:hidden">
+            <button class="cursor-pointer" id="menu-open">
+              <MenuIcon />
+            </button>
+            <button class="cursor-pointer hidden" id="menu-close">
+              <CloseIcon />
+            </button>
+          </div>
+        </nav>
+
+        <!-- Mobile nav links overlay (only visible on small screens) -->
+        <div
+          id="nav-links"
+          class="fixed inset-0 bg-white flex flex-col justify-between h-full pt-30 p-4 font-menu text-5xl text-black hidden fade-in-sequence z-1"
+        >
+          <!-- Primary navigation links -->
+          <div class="flex flex-col gap-5 items-start text-left w-max">
             <a href="/projects" class="hover:text-gray-400">projects.</a>
             <a href="/people" class="hover:text-gray-400">people.</a>
             <a href="/about" class="hover:text-gray-400">about.</a>
           </div>
-          <div>
-            <a href="/contact" class="hover:text-gray-400">
-              <EnvelopeIcon />
-            </a>
+          <!-- Contact link positioned lower -->
+          <div class="mb-auto mt-40">
+            <a href="/contact" class="hover:text-gray-400 lg:hidden">contact.</a
+            >
           </div>
         </div>
+      </header>
 
-        <!-- Mobile menu toggle buttons (hidden on lg size and above) -->
-        <div class="flex justify-around w-full lg:hidden">
-          <button class="cursor-pointer" id="menu-open">
-            <MenuIcon />
-          </button>
-          <button class="cursor-pointer hidden" id="menu-close">
-            <CloseIcon />
-          </button>
-        </div>
-      </nav>
+      <!-- Main content injected from each page -->
+      <main class="flex-grow">
+        <slot />
+      </main>
 
-      <!-- Mobile nav links overlay (only visible on small screens) -->
-      <div
-        id="nav-links"
-        class="fixed inset-0 bg-white flex flex-col justify-between h-full pt-30 p-4 font-menu text-5xl text-black hidden fade-in-sequence z-1"
+      <!-- Footer (hidden on mobile homepage) -->
+      <footer
+        class={`w-full py-20 mt-35 text-black gap-4 flex flex-col items-center justify-center ${
+          Astro.url.pathname === "/" ? "hidden lg:flex" : "flex"
+        }`}
       >
-        <!-- Primary navigation links -->
-        <div class="flex flex-col gap-5 items-start text-left w-max">
-          <a href="/projects" class="hover:text-gray-400">projects.</a>
-          <a href="/people" class="hover:text-gray-400">people.</a>
-          <a href="/about" class="hover:text-gray-400">about.</a>
-        </div>
-        <!-- Contact link positioned lower -->
-        <div class="mb-auto mt-40">
-          <a href="/contact" class="hover:text-gray-400 lg:hidden">contact.</a>
-        </div>
-      </div>
-    </header>
+        <!-- Dynamic copyright year -->
+        <p class="text-center soleil text-lg">
+          © The KOHA Project {year}
+        </p>
 
-    <!-- Main content injected from each page -->
-    <main class="flex-grow">
-      <slot />
-    </main>
+        <!-- Instagram link -->
+        <a
+          href="https://www.instagram.com/the_koha_project/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/images/Instagram_Glyph_Black.svg"
+            alt="Instagram logo"
+            width="20"
+          />
+        </a>
+      </footer>
 
-    <!-- Footer (hidden on mobile homepage) -->
-    <footer
-      class={`w-full py-20 mt-35 text-black gap-4 flex flex-col items-center justify-center ${
-        Astro.url.pathname === "/" ? "hidden lg:flex" : "flex"
-      }`}
-    >
-      <!-- Dynamic copyright year -->
-      <p class="text-center soleil text-lg">
-        © The KOHA Project {year}
-      </p>
+      <!-- Load navigation toggle logic -->
+      <script src="/scripts/menu.js" is:inline defer></script>
 
-      <!-- Instagram link -->
-      <a
-        href="https://www.instagram.com/the_koha_project/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="/images/Instagram_Glyph_Black.svg"
-          alt="Instagram logo"
-          width="20"
-        />
-      </a>
+      <!-- Responsive menu state reset script -->
+      <script is:inline>
+        // References to navigation elements for toggling mobile menu visibility
+        const navLinks = document.getElementById("nav-links");
+        const menuOpen = document.getElementById("menu-open");
+        const menuClose = document.getElementById("menu-close");
 
-    </footer>
-
-    <!-- Load navigation toggle logic -->
-    <script src="/scripts/menu.js" is:inline defer></script>
-
-    <!-- Resize listener to reset mobile menu on large screens -->
-    <script is:inline>
-      const navLinks = document.getElementById("nav-links");
-      const menuOpen = document.getElementById("menu-open");
-      const menuClose = document.getElementById("menu-close");
-
-      window.addEventListener("resize", () => {
-        if (window.innerWidth >= 1024) {
-          navLinks.classList.add("hidden");
-          menuClose.classList.add("hidden");
-          menuOpen.classList.remove("hidden");
-        }
-      });
-    </script>
+        // When resizing to desktop, ensure the mobile menu is closed
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 1024) {
+            navLinks.classList.add("hidden");
+            menuClose.classList.add("hidden");
+            menuOpen.classList.remove("hidden");
+          }
+        });
+      </script>
     </div>
   </body>
 </html>
