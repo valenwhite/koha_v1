@@ -57,27 +57,19 @@ const titleMap = [
       }
     </div>
 
-    <!-- Mobile version: all title groups are visible, styled accordingly -->
+    <!-- Mobile version: single container, content updated via JS -->
     <div
       id="mobile-titles"
-      class="absolute bottom-5 right-4 z-20 flex flex-col items-end lg:hidden fade-in-right"
+      class="absolute bottom-60 right-4 z-20 flex justify-end lg:hidden"
     >
-      {
-        titleMap.map((item, i) => (
-          <div
-            class="flex flex-col items-end py-2 transition-all"
-            data-title-group
-            data-index={i}
-          >            
-            <span class="font-sans font-bold text-lg text-gray-200 text-outline-sub text-right">
-              {item.year}
-            </span>
-            <h1 class="text-4xl soleil text-outline transform scale-100 transition-transform duration-500 origin-top-right text-right -mt-3">
-              {item.title}
-            </h1>
-          </div>
-        ))
-      }
+      <div
+        class="absolute flex flex-col items-end py-2"
+        data-title-group
+      >
+      <h1 id="mobile-title" class="text-5xl text-white soleil text-right text-nowrap"></h1>
+      <span id="mobile-year" class="font-sans text-md text-gray-200 text-right"></span>
+        
+      </div>
     </div>
   </div>
 
@@ -94,27 +86,29 @@ const titleMap = [
 </BaseLayout>
 
 <script is:inline>
-  const desktopGroups = document.querySelectorAll(
-    "#desktop-titles [data-title-group]"
-  );
-  const mobileGroups = document.querySelectorAll(
-    "#mobile-titles [data-title-group]"
-  );
+const desktopGroups = document.querySelectorAll(
+  "#desktop-titles [data-title-group]"
+);
 
-  const images = [
-    "/images/mother_hood.jpg",
-    "/images/the_pact.png",
-    "/images/the_trick.png",
-  ];
+const images = [
+  "/images/mother_hood.jpg",
+  "/images/the_pact.png",
+  "/images/the_trick.png",
+];
 
-  const backgroundDiv = document.querySelector(".dynamic-bg");
-  const bgStyles = [
-    "from-[#d334d3] to-[#344ed3]", // mother_hood.jpg
-    "from-[#344ed3] to-[#60a5fa]", // the_pact.png
-    "from-[#d3a634] to-[#d36e34]", // the_trick.png
-  ];
+const backgroundDiv = document.querySelector(".dynamic-bg");
+const bgStyles = [
+  "from-[#d334d3] to-[#344ed3]", // mother_hood.jpg
+  "from-[#344ed3] to-[#60a5fa]", // the_pact.png
+  "from-[#d3a634] to-[#d36e34]", // the_trick.png
+];
 
-  let activeIndex = 0;
+const titleMap = [
+  { year: "2024", title: "MOTHER HOOD" },
+  { year: "2020", title: "THE PACT" },
+  { year: "2018", title: "THE TRICK" },
+];
+let activeIndex = 0;
 
   function updateDesktopTitles(index) {
     const img = document.getElementById("rotating-image");
@@ -154,24 +148,10 @@ const titleMap = [
   }
 
   function updateMobileTitles(index) {
-    mobileGroups.forEach((group, i) => {
-      const title = group.querySelector("h1");
-      const year = group.querySelector("span");
-      const isActive = i === index;
-
-      if (title) {
-        title.classList.toggle("text-white", isActive);
-        title.classList.toggle("fade-in-std", isActive);
-        title.classList.toggle("text-outline", !isActive);
-        title.classList.toggle("scale-160", isActive);
-        title.classList.toggle("scale-100", !isActive);
-      }
-
-      if (year) {
-        year.classList.toggle("text-gray-400", isActive);
-        year.classList.toggle("text-outline-sub", !isActive);
-      }
-    });
+    const titleEl = document.getElementById("mobile-title");
+    const yearEl = document.getElementById("mobile-year");
+    if (titleEl) titleEl.textContent = titleMap[index].title;
+    if (yearEl) yearEl.textContent = titleMap[index].year;
   }
 
   // Initial update on load
