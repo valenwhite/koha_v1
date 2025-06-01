@@ -5,6 +5,7 @@ import EnvelopeIcon from "../../src/components/EnvelopeIcon.astro";
 import InstaIcon from "../components/InstaIcon.astro";
 import MenuIcon from "../../src/components/MenuIcon.astro";
 import CloseIcon from "../../src/components/CloseIcon.astro";
+import ContainerDefault from "../components/ContainerDefault.astro";
 
 const year = new Date().getFullYear();
 ---
@@ -19,7 +20,7 @@ const year = new Date().getFullYear();
     <link rel="stylesheet" href="https://use.typekit.net/ash7zhr.css" />
   </head>
 
-  <body class="bg-zinc-200">
+  <body class="bg-zinc-100">
     <!-- Wrap the entire layout in a full-height flex column to allow footer stickiness -->
     <div class="flex flex-col min-h-screen">
       <!-- Header with logo and navigation -->
@@ -32,7 +33,7 @@ const year = new Date().getFullYear();
           <img
             id="main-logo"
             class="block w-36 logo lg:w-40 lg:transition lg:duration-200 js-logo"
-            src="/images/logo_white.png"
+            src="/images/logo_black.png"
             alt="Logo"
           />
         </a>
@@ -91,7 +92,7 @@ const year = new Date().getFullYear();
         <!-- Mobile nav links overlay (only visible on small screens) -->
         <div
           id="nav-links"
-          class="fixed inset-0 bg-white flex-col justify-between h-full pt-30 p-4 font-menu text-5xl text-black hidden fade-in-sequence z-1"
+          class="fixed inset-0 bg-zinc-200 flex-col justify-between h-full pt-30 p-4 font-menu text-5xl text-black hidden fade-in-sequence z-1"
         >
           <!-- Primary navigation links -->
           <div class="flex flex-col gap-5 items-start text-left w-max">
@@ -112,16 +113,19 @@ const year = new Date().getFullYear();
       </header>
 
       <!-- Main content injected from each page -->
-      <main class="flex-grow">
+      <main class="flex-grow min-h-screen">
         <slot />
       </main>
 
       <!-- Footer (hidden on mobile homepage) -->
       <footer
-        class={`w-full pb-10 mt-60 text-black gap-4 flex flex-col items-center justify-center ${
+        class={`w-full pb-10 text-black gap-4 flex flex-col items-center justify-center ${
           Astro.url.pathname === "/" ? "hidden lg:flex" : "flex"
         }`}
       >
+      <ContainerDefault>
+        
+      </ContainerDefault>
         <!-- Dynamic copyright year -->
         <p class="text-center soleil text-sm">
           © The KOHA Project {year}
@@ -150,21 +154,21 @@ const year = new Date().getFullYear();
       </script>
 
       <script is:inline>
-        const logo = document.querySelector(".js-logo");
-
         function updateLogoInvert() {
-          const path = window.location.pathname;
-          if (path === "/") {
-            logo.classList.remove("invert");
-            logo.classList.add("lg:invert");
+          const logo = document.getElementById("main-logo");
+          const currentPath = window.location.pathname;
+          const isMobile = window.innerWidth < 1024;
+
+          if (currentPath === "/" && isMobile) {
+            logo.src = "/images/logo_white.png";
           } else {
-            logo.classList.add("invert");
-            logo.classList.remove("lg:invert");
+            logo.src = "/images/logo_black.png";
           }
         }
 
         window.addEventListener("load", updateLogoInvert);
         window.addEventListener("popstate", updateLogoInvert);
+        window.addEventListener("resize", updateLogoInvert);
 
         // If using SPA-like routing, also listen to link clicks
         document.querySelectorAll("a").forEach((link) => {
