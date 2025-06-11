@@ -1,5 +1,8 @@
 # KOHA Production Portfolio Site
 
+![cover](https://github.com/user-attachments/assets/c7c3385b-e092-4a2e-9a9c-692c51d2cfe2)
+
+
 This is a static portfolio site for **KOHA**, a production company showcasing its work across film and television.
 
 Built with [Astro](https://astro.build/) and TypeScript, the site uses a clean, responsive layout. It also includes a contact section and pages introducing the team and company background.
