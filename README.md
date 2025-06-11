@@ -14,6 +14,7 @@ Built with [Astro](https://astro.build/) and TypeScript, the site uses a clean, 
 
 ## Folder Structure
 
+```
 KOHA_V1/
 ├── public/                     # Static assets (images, icons, scripts)
 │   ├── images/                 # Logos and show images
@@ -21,7 +22,7 @@ KOHA_V1/
 ├── src/
 │   ├── components/             # Reusable UI elements (icons, containers)
 │   ├── content/
-│   │   ├── people/             # Markdown for team bios 
+│   │   ├── people/             # Markdown for team bios
 │   │   └── shows/              # Markdown for each project
 │   ├── layouts/                # Base layout
 │   ├── pages/                  # Top-level routes (about, contact, people, projects)
@@ -31,6 +32,7 @@ KOHA_V1/
 ├── package.json
 ├── tsconfig.json
 └── README.md
+```
 
 ## To run the site locally:
 
