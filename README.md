@@ -1,47 +1,47 @@
-# Astro Starter Kit: Minimal
+# KOHA Production Portfolio Site
 
-```sh
-npm create astro@latest -- --template minimal
+![cover](https://github.com/user-attachments/assets/c7c3385b-e092-4a2e-9a9c-692c51d2cfe2)
+
+
+This is a static portfolio site for **KOHA**, a production company showcasing its work across film and television.
+
+Built with [Astro](https://astro.build/) and TypeScript, the site uses a clean, responsive layout. It also includes a contact section and pages introducing the team and company background.
+
+## Tech Stack
+
+- [Astro](https://astro.build/)
+- Typescript
+- HTML / CSS / JavaScript
+- [Netlify](https://www.netlify.com/) (deployment)
+- Markdown (for content)
+
+## Folder Structure
+
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
+KOHA_V1/
+├── public/                     # Static assets (images, icons, scripts)
+│   ├── images/                 # Logos and show images
+│   └── scripts/                # JavaScript for interactivity
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/             # Reusable UI elements (icons, containers)
+│   ├── content/
+│   │   ├── people/             # Markdown for team bios
+│   │   └── shows/              # Markdown for each project
+│   ├── layouts/                # Base layout
+│   ├── pages/                  # Top-level routes (about, contact, people, projects)
+│   └── styles/                 # Global styles
+├── .gitignore
+├── astro.config.mjs
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## To run the site locally:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+git clone https://github.com/yourusername/koha-site.git
+cd koha-site
+npm install
+npm run dev
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
