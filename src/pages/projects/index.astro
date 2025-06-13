@@ -1,15 +1,15 @@
 ---
+import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import MenuSpacer from "../../components/MenuSpacer.astro";
 import Container from "../../components/ContainerDefault.astro";
-import { getCollection, type CollectionEntry } from "astro:content";
 
-// Fetch all entries from the 'shows' collection
+type ShowEntry = CollectionEntry<"shows">;
+
 const shows = (await getCollection("shows")) as CollectionEntry<"shows">[];
 
-// Render the content for each show
 const renderedShows = await Promise.all(
-  shows.map(async (show) => {
+  shows.map(async (show: ShowEntry) => {
     const { Content } = await show.render();
     return { ...show, Content };
   })
@@ -17,25 +17,40 @@ const renderedShows = await Promise.all(
 ---
 
 <BaseLayout>
-<MenuSpacer/>
-  <Container>
+  <MenuSpacer />
+  <div class="flex flex-col gap-y-20 lg:mt-25">
     {
-      renderedShows.map((show) => (
-        <a href={`/projects/${show.slug}`} class="block mb-8">
-          <div>
-            <img
-              src={`/images/${show.data.image}`}
-              alt={show.data.title}
-              class="w-full mb-4"
-            />
-            <h2 class="text-xl font-semibold">{show.data.title}</h2>
-            <p class="text-sm text-gray-500 mb-2">{show.data.year}</p>
-            <div class="prose">
-              <show.Content />
+      renderedShows.map((show, i) => {
+        const isEven = i % 2 === 0;
+        const imgPaddingClass = isEven
+          ? "p-4 lg:pl-0 lg:pr-14"
+          : "p-4 lg:pl-14 lg:pr-0";
+
+        const titlePaddingClass = isEven ? "lg:pl-14" : "lg:pr-14";
+
+        return (
+          <div class={`w-full ${imgPaddingClass} mx-auto sm:min-h-32`}>
+            <a href={`/projects/${show.slug}`}>
+              <img
+                src={`/images/${show.data.image}`}
+                alt={show.data.title}
+                class="w-full h-100 lg:h-120 object-cover parallax-image fade-zoom-in-to-size"
+              />
+            </a>
+            <div
+              class={`flex justify-between items-center mt-1 ${titlePaddingClass}`}
+            >
+              <h2 class="text-5xl uppercase font-bold soleil">
+                {show.data.title}
+              </h2>
+              <hr class="border-t border-gray-300 my-4" />
+              <p class="text-2xl font-semibold text-gray-500">
+                {show.data.year}
+              </p>
             </div>
           </div>
-        </a>
-      ))
+        );
+      })
     }
-  </Container>
+  </div>
 </BaseLayout>

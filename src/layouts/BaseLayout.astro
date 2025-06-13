@@ -20,7 +20,7 @@ const year = new Date().getFullYear();
     <link rel="stylesheet" href="https://use.typekit.net/ash7zhr.css" />
   </head>
 
-  <body class="bg-zinc-100">
+  <body class="bg-zinc-100" data-page={Astro.url.pathname}>
     <!-- Wrap the entire layout in a full-height flex column to allow footer stickiness -->
     <div class="flex flex-col min-h-screen">
       <!-- Header with logo and navigation -->
@@ -152,28 +152,34 @@ const year = new Date().getFullYear();
       </script>
 
       <script is:inline>
-        function updateLogoInvert() {
-          const logo = document.getElementById("main-logo");
-          const currentPath = window.location.pathname;
+        function updateLogoState() {
+          const isHome = window.location.pathname === "/";
           const isMobile = window.innerWidth < 1024;
+          const menu = document.querySelector(".menu");
+          const logo = document.querySelector(".logo");
 
-          if (currentPath === "/" && isMobile) {
+          const menuIsOpen = menu?.classList.contains("open");
+
+          if (isHome && isMobile && !menuIsOpen) {
             logo.src = "/images/logo_white.png";
           } else {
             logo.src = "/images/logo_black.png";
           }
         }
 
-        window.addEventListener("load", updateLogoInvert);
-        window.addEventListener("popstate", updateLogoInvert);
-        window.addEventListener("resize", updateLogoInvert);
+        // Run on load
+        updateLogoState();
 
-        // If using SPA-like routing, also listen to link clicks
-        document.querySelectorAll("a").forEach((link) => {
-          link.addEventListener("click", () => {
-            setTimeout(updateLogoInvert, 100); // Delay to allow route change
+        // Run on resize
+        window.addEventListener("resize", updateLogoState);
+
+        // Run when menu toggles
+        document
+          .querySelector("#menu-toggle")
+          ?.addEventListener("click", () => {
+            document.querySelector(".menu")?.classList.toggle("open");
+            updateLogoState();
           });
-        });
       </script>
     </div>
   </body>

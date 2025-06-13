@@ -83,6 +83,7 @@
     }     
 }
 
+
 body {
     scrollbar-width: none;
     /* Firefox */
@@ -117,6 +118,24 @@ body::-webkit-scrollbar {
     }
 }
 
+@keyframes fade-zoom-in-to-size {
+    from {
+        transform: scale(1.035);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
 .fade-zoom-in {
     animation: fade-zoom-in 0.2s ease-out forwards;
-    transform-origin: center;     }
+    transform-origin: center;     
+}
+
+.fade-zoom-in-to-size {
+    animation: fade-zoom-in-to-size 0.2s ease-out forwards;
+    transform-origin: center;
+}
+
+    
