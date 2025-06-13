@@ -1,7 +1,36 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/ContainerDefault.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+// 1. Define getStaticPaths to generate routes for each project
+export async function getStaticPaths() {
+  const shows = await getCollection("shows");
+  return shows.map((show) => ({
+    params: { slug: show.slug },
+    props: { show },
+  }));
+}
+
+// 2. Access the show entry passed as a prop
+const { show } = Astro.props;
+
+// 3. Render the content of the show entry
+const { Content, headings } = await show.render();
 ---
 
 <BaseLayout>
-</BaseLayout>
+  <article class="">
+    <img
+      src={`/images/${show.data.image}`}
+      alt={show.data.title}
+      class="w-full"
+    />
+    <Container>
+      <h1>{show.data.title}</h1>
+      <p class="text-gray-600 mb-6">{show.data.year}</p>
 
+      <!-- Rendered Markdown content -->
+    </Container>
+  </article>
+</BaseLayout>

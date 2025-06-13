@@ -3,7 +3,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import KOHARain from "../components/KOHARain.astro";
 import KOHARainNoScale from "../components/KOHARainNoScale.astro";
+import Container from "../components/ContainerDefault.astro";
+
 import "../styles/global.css";
+
 const titleMap = [
   { year: "2024", title: "MOTHER HOOD" },
   { year: "2020", title: "THE PACT" },
@@ -25,7 +28,6 @@ const titleMap = [
   <div
     class="relative w-screen h-screen overflow-hidden lg:w-auto lg:h-auto lg:px-14 lg:pt-[100px]"
   >
-    
     <!-- Image container -->
     <div
       class="relative w-full h-full lg:rounded lg:aspect-[4992/2072] overflow-hidden"
@@ -41,7 +43,7 @@ const titleMap = [
 
     <div
       id="shared-titles"
-      class="absolute bottom-50 left-4 z-20 flex flex-col gap-10 lg:items-end lg:gap-0 lg:right-4 lg:flex lg:static lg:gap-0 lg:pt-3"
+      class="absolute bottom-50 left-4 z-20 flex flex-col gap-10 lg:items-end lg:right-4 lg:flex lg:static lg:gap-0 lg:pt-3"
     >
       <h1
         id="shared-title"
@@ -54,7 +56,7 @@ const titleMap = [
       >
       </p>
       <div
-        class="fixed z-50 invert rotate-270  translate-x-36 -translate-y-75.5 scale-50 pointer-events-none select-none lg:hidden"
+        class="fixed z-50 invert rotate-270 translate-x-36 -translate-y-75.5 scale-50 pointer-events-none select-none lg:hidden"
         aria-hidden="true"
       >
         <KOHARainNoScale />
@@ -72,6 +74,11 @@ const titleMap = [
     >
     </div>
   </div>
+  <Container>
+    <h6 class="text-6xl">
+      Quiet stories. Told with care. Built to live beyond the frame.
+    </h6>
+  </Container>
 </BaseLayout>
 
 <script is:inline>

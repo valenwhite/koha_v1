@@ -1,8 +1,41 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Container from "../../components/Container.astro";
+import MenuSpacer from "../../components/MenuSpacer.astro";
+import Container from "../../components/ContainerDefault.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+// Fetch all entries from the 'shows' collection
+const shows = (await getCollection("shows")) as CollectionEntry<"shows">[];
+
+// Render the content for each show
+const renderedShows = await Promise.all(
+  shows.map(async (show) => {
+    const { Content } = await show.render();
+    return { ...show, Content };
+  })
+);
 ---
+
 <BaseLayout>
-    <Container>
-        <Container />
+<MenuSpacer/>
+  <Container>
+    {
+      renderedShows.map((show) => (
+        <a href={`/projects/${show.slug}`} class="block mb-8">
+          <div>
+            <img
+              src={`/images/${show.data.image}`}
+              alt={show.data.title}
+              class="w-full mb-4"
+            />
+            <h2 class="text-xl font-semibold">{show.data.title}</h2>
+            <p class="text-sm text-gray-500 mb-2">{show.data.year}</p>
+            <div class="prose">
+              <show.Content />
+            </div>
+          </div>
+        </a>
+      ))
+    }
+  </Container>
 </BaseLayout>
