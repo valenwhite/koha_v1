@@ -25,7 +25,9 @@ const renderedShows = await Promise.all(
         const imgPaddingClass = isEven
           ? "p-4 lg:pl-0 lg:pr-14"
           : "p-4 lg:pl-14 lg:pr-0";
-
+        const imgRoundedClass = isEven
+          ? "lg:rounded-l-none"
+          : "lg:rounded-r-none";
         const titlePaddingClass = isEven ? "lg:pl-14" : "lg:pr-14";
 
         return (
@@ -34,7 +36,7 @@ const renderedShows = await Promise.all(
               <img
                 src={`/images/${show.data.image}`}
                 alt={show.data.title}
-                class="w-full h-100 lg:h-120 object-cover parallax-image fade-zoom-in-to-size"
+                class={`w-full h-100 lg:[height:calc(0.35*100vw)] object-cover fade-zoom-in-to-size rounded ${imgRoundedClass}`}
               />
             </a>
             <div
@@ -43,7 +45,6 @@ const renderedShows = await Promise.all(
               <h2 class="text-5xl uppercase font-bold soleil">
                 {show.data.title}
               </h2>
-              <hr class="border-t border-gray-300 my-4" />
               <p class="text-2xl font-semibold text-gray-500">
                 {show.data.year}
               </p>
