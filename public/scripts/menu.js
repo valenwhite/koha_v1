@@ -6,7 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const toggleMenu = () => {
     const isOpen = !menu.classList.contains('hidden');
-    menu.classList.toggle('hidden');
+    if (menu.classList.contains('hidden')) {
+      menu.classList.remove('hidden');
+      menu.classList.add('flex');
+    } else {
+      menu.classList.remove('flex');
+      menu.classList.add('hidden');
+    }
     menuOpen.classList.toggle('hidden');
     menuClose.classList.toggle('hidden');
 
