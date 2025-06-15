@@ -8,6 +8,7 @@ const shows = defineCollection({
     image: z.string(),
     tagline: z.string(),
     description: z.string(),
+    logoInvert: z.boolean(),
   }),
 });
 

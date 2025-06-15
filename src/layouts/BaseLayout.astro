@@ -20,7 +20,7 @@ const year = new Date().getFullYear();
     <link rel="stylesheet" href="https://use.typekit.net/ash7zhr.css" />
   </head>
 
-  <body class="bg-zinc-100" data-page={Astro.url.pathname}>
+  <body class="bg-zinc-100">
     <!-- Wrap the entire layout in a full-height flex column to allow footer stickiness -->
     <div class="flex flex-col min-h-screen">
       <!-- Header with logo and navigation -->
@@ -32,7 +32,7 @@ const year = new Date().getFullYear();
         <a href="/" class="z-1001">
           <img
             id="main-logo"
-            class="block w-36 logo lg:w-40 lg:transition lg:duration-200 js-logo"
+            class="block w-36 logo lg:w-40 lg:transition lg:duration-200"
             src="/images/logo_black.png"
             alt="Logo"
           />
@@ -49,15 +49,15 @@ const year = new Date().getFullYear();
             <div class="flex gap-15">
               <a
                 href="/projects"
-                class="hover:text-gray-400 transition duration-200">projects.</a
+                class="nav-link relative hover:text-gray-400 transition duration-200">projects.</a
               >
               <a
                 href="/people"
-                class="hover:text-gray-400 transition duration-200">people.</a
+                class="nav-link relative hover:text-gray-400 transition duration-200">people.</a
               >
               <a
                 href="/about"
-                class="hover:text-gray-400 transition duration-200">about.</a
+                class="nav-link relative hover:text-gray-400 transition duration-200">about.</a
               >
             </div>
             <div class="flex items-center gap-8">
@@ -119,13 +119,11 @@ const year = new Date().getFullYear();
 
       <!-- Footer (hidden on mobile homepage) -->
       <footer
-        class={`w-full pb-10 text-black gap-4 flex flex-col items-center justify-center ${
-          Astro.url.pathname === "/" ? "hidden lg:flex" : "flex"
-        }`}
+        class="w-full py-20 bg-black text-white flex flex-col items-center justify-center"
       >
         <ContainerDefault />
         <!-- Dynamic copyright year -->
-        <p class="text-center soleil text-sm">
+        <p class="text-center text-white soleil text-sm">
           © The KOHA Project {year}
         </p>
       </footer>
@@ -149,37 +147,6 @@ const year = new Date().getFullYear();
             menuOpen.classList.remove("hidden");
           }
         });
-      </script>
-
-      <script is:inline>
-        function updateLogoState() {
-          const isHome = window.location.pathname === "/";
-          const isMobile = window.innerWidth < 1024;
-          const menu = document.querySelector(".menu");
-          const logo = document.querySelector(".logo");
-
-          const menuIsOpen = menu?.classList.contains("open");
-
-          if (isHome && isMobile && !menuIsOpen) {
-            logo.src = "/images/logo_white.png";
-          } else {
-            logo.src = "/images/logo_black.png";
-          }
-        }
-
-        // Run on load
-        updateLogoState();
-
-        // Run on resize
-        window.addEventListener("resize", updateLogoState);
-
-        // Run when menu toggles
-        document
-          .querySelector("#menu-toggle")
-          ?.addEventListener("click", () => {
-            document.querySelector(".menu")?.classList.toggle("open");
-            updateLogoState();
-          });
       </script>
     </div>
   </body>

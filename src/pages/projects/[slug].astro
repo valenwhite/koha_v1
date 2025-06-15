@@ -21,16 +21,28 @@ const { Content, headings } = await show.render();
 
 <BaseLayout>
   <article class="">
-    <img
-      src={`/images/${show.data.image}`}
-      alt={show.data.title}
-      class="h-[78vh] object-cover"
-    />
+    <div class="relative w-full h-[78vh] overflow-hidden">
+      <img
+        src={`/images/${show.data.image}`}
+        alt={show.data.title}
+        class="w-full h-full object-cover fade-zoom-in"
+      />
+      <div class="absolute bottom-8 left-0 w-full text-white">
+        <Container>
+          <h1 class="text-6xl lg:text-7xl soleil uppercase font-bold">{show.data.title}</h1>
+        </Container>
+      </div>
+    </div>
     <Container>
-      <h1 class="">{show.data.title}</h1>
-      <p class="text-gray-600 mb-6">{show.data.year}</p>
-
       <!-- Rendered Markdown content -->
+      <p class="text-2xl lg:text-4xl">{show.data.year}</p>
     </Container>
   </article>
+
+  <!-- Inline module script to handle logo inversion logic based on Markdwon file -->
+  {
+    show.data.logoInvert && (
+      <script type="module" src="/scripts/logoInvertProjects.js" is:inline />
+    )
+  }
 </BaseLayout>

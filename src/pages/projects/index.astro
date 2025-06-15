@@ -4,23 +4,16 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import MenuSpacer from "../../components/MenuSpacer.astro";
 import Container from "../../components/ContainerDefault.astro";
 
-type ShowEntry = CollectionEntry<"shows">;
-
 const shows = (await getCollection("shows")) as CollectionEntry<"shows">[];
 
-const renderedShows = await Promise.all(
-  shows.map(async (show: ShowEntry) => {
-    const { Content } = await show.render();
-    return { ...show, Content };
-  })
-);
+const sortedShows = shows.sort((a, b) => b.data.year - a.data.year);
 ---
 
 <BaseLayout>
   <MenuSpacer />
-  <div class="flex flex-col gap-y-20 lg:mt-25">
+  <div class="flex flex-col gap-y-20 lg:mt-25 mb-20">
     {
-      renderedShows.map((show, i) => {
+      sortedShows.map((show, i) => {
         const isEven = i % 2 === 0;
         const imgPaddingClass = isEven
           ? "p-4 lg:pl-0 lg:pr-14"
@@ -31,27 +24,60 @@ const renderedShows = await Promise.all(
         const titlePaddingClass = isEven ? "lg:pl-14" : "lg:pr-14";
 
         return (
-          <div class={`w-full ${imgPaddingClass} mx-auto sm:min-h-32`}>
-            <a href={`/projects/${show.slug}`}>
-              <img
-                src={`/images/${show.data.image}`}
-                alt={show.data.title}
-                class={`w-full h-100 lg:[height:calc(0.35*100vw)] object-cover fade-zoom-in-to-size rounded ${imgRoundedClass}`}
-              />
+          <div class={`group w-full ${imgPaddingClass} overflow-hidden mx-auto sm:min-h-32`}>
+            <a
+              href={`/projects/${show.slug}`}
+              class="relative hover-trigger block"
+            >
+              <div class={`overflow-hidden rounded ${imgRoundedClass}`}>
+                <img
+                  src={`/images/${show.data.image}`}
+                  alt={show.data.title}
+                  class={`w-full h-100 lg:[height:calc(0.35*100vw)] object-cover image-hover transition-transform duration-300`}
+                  data-hover-trigger
+                />
+              </div>
             </a>
             <div
-              class={`flex justify-between items-center mt-1 ${titlePaddingClass}`}
+              class={`flex justify-between items-end mt-1 ${titlePaddingClass}`}
             >
-              <h2 class="text-5xl uppercase font-bold soleil">
-                {show.data.title}
-              </h2>
-              <p class="text-2xl font-semibold text-gray-500">
-                {show.data.year}
-              </p>
+              <a
+                href={`/projects/${show.slug}`}
+                class="relative hover-trigger block"
+              >
+                <h2
+                  class="text-5xl lg:text-7xl uppercase font-bold soleil"
+                  data-hover-trigger
+                >
+                  {show.data.title}
+                </h2>
+                <span class="animated-underline absolute bottom-0 left-0 w-full h-1" />
+              </a>
+              <p class="text-2xl lg:text-2xl text-gray-500">{show.data.year}</p>
             </div>
           </div>
         );
       })
     }
   </div>
+  <script is:inline>
+    document.addEventListener("DOMContentLoaded", () => {
+      const groups = document.querySelectorAll(".group");
+
+      groups.forEach(group => {
+        const triggers = group.querySelectorAll("[data-hover-trigger]");
+        const underline = group.querySelector(".animated-underline");
+
+        if (!underline || triggers.length === 0) return;
+
+        const showUnderline = () => underline.classList.add("underline-visible");
+        const hideUnderline = () => underline.classList.remove("underline-visible");
+
+        triggers.forEach(trigger => {
+          trigger.addEventListener("mouseenter", showUnderline);
+          trigger.addEventListener("mouseleave", hideUnderline);
+        });
+      });
+    });
+  </script>
 </BaseLayout>

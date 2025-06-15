@@ -13,11 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lock or unlock body scroll when menu opens/closes
     document.body.style.overflow = isOpen ? '' : 'hidden';
 
-    if (isOpen) {
-      logo.classList.remove('invert');
-    } else {
-      logo.classList.add('invert');
-    }
   };
 
   menuOpen.addEventListener('click', toggleMenu);

@@ -1,20 +1,15 @@
 ---
-// Import the main layout wrapper and background rain component
+// Import the main layout wrapper and background rain components
 import BaseLayout from "../layouts/BaseLayout.astro";
 import KOHARain from "../components/KOHARain.astro";
 import KOHARainNoScale from "../components/KOHARainNoScale.astro";
 import Container from "../components/ContainerDefault.astro";
 
+// Import global CSS styles for the entire site
 import "../styles/global.css";
-
-const titleMap = [
-  { year: "2024", title: "MOTHER HOOD" },
-  { year: "2020", title: "THE PACT" },
-  { year: "2018", title: "THE TRICK" },
-];
 ---
 
-<!-- Layout wrapper for consistent page structure -->
+<!-- Layout wrapper for consistent page structure across pages -->
 <BaseLayout>
   <!-- Rain animation for desktop background (visible only on large screens) -->
   <div
@@ -24,15 +19,15 @@ const titleMap = [
     <KOHARain />
   </div>
 
-  <!-- Main content area with rotating image -->
+  <!-- Main content area containing the rotating image and titles -->
   <div
     class="relative w-screen h-screen overflow-hidden lg:w-auto lg:h-auto lg:px-14 lg:pt-[100px]"
   >
-    <!-- Image container -->
+    <!-- Container for the rotating image -->
     <div
-      class="relative w-full h-full lg:rounded lg:aspect-[4992/2072] overflow-hidden"
+      class="relative w-full h-full lg:rounded lg:aspect-[21/9] overflow-hidden"
     >
-      <!-- Image which updates every 6 seconds -->
+      <!-- Image element that updates source every 6 seconds with fade-zoom-in animation -->
       <img
         id="rotating-image"
         src="/images/mother_hood.jpg"
@@ -41,20 +36,24 @@ const titleMap = [
       />
     </div>
 
+    <!-- Titles container positioned relative to the image -->
     <div
       id="shared-titles"
       class="absolute bottom-50 left-4 z-20 flex flex-col gap-10 lg:items-end lg:right-4 lg:flex lg:static lg:gap-0 lg:pt-3"
     >
+      <!-- Dynamic main title text -->
       <h1
         id="shared-title"
-        class="text-6xl soleil text-white lg:text-black text-left lg:text-right"
+        class="text-6xl lg:text-8xl soleil text-white lg:text-black text-left lg:text-right"
       >
       </h1>
+      <!-- Dynamic year text associated with the title -->
       <p
         id="shared-year"
-        class="font-sans font-semibold text-lg text-gray-200 lg:text-gray-500 text-left lg:text-right lg:self-end"
+        class="font-sans font-semibold text-2xl text-gray-200 lg:text-gray-500 text-left lg:text-right lg:self-end"
       >
       </p>
+      <!-- Fixed rain animation for smaller screens, hidden on large screens -->
       <div
         class="fixed z-50 invert rotate-270 translate-x-36 -translate-y-75.5 scale-50 pointer-events-none select-none lg:hidden"
         aria-hidden="true"
@@ -64,6 +63,7 @@ const titleMap = [
     </div>
   </div>
 
+  <!-- Decorative blurred background shape with dynamic gradient on large screens -->
   <div
     class="hidden lg:block absolute inset-x-0 top-60 -z-10 transform-gpu overflow-hidden blur-3xl"
     aria-hidden="true"
@@ -74,73 +74,88 @@ const titleMap = [
     >
     </div>
   </div>
+
+  <!-- Inline script to handle rotating images, titles, and dynamic background gradient updates -->
+  <script is:inline>
+    // Array of image sources to rotate through
+    const images = [
+      "/images/mother_hood.jpg",
+      "/images/the_pact.png",
+      "/images/the_trick.png",
+    ];
+
+    // Reference to the dynamic background div for gradient updates
+    const backgroundDiv = document.querySelector(".dynamic-bg");
+
+    // Corresponding background gradient styles for each image
+    const bgStyles = [
+      "from-[#d334d3] to-[#344ed3]", // mother_hood.jpg
+      "from-[#344ed3] to-[#60a5fa]", // the_pact.png
+      "from-[#d3a634] to-[#d36e34]", // the_trick.png
+    ];
+
+    // Mapping of titles and years corresponding to each image
+    const titleMap = [
+      { year: "2024", title: "MOTHER HOOD" },
+      { year: "2020", title: "THE PACT" },
+      { year: "2018", title: "THE TRICK" },
+    ];
+    let activeIndex = 0;
+
+    // Function to update the image, titles, and background gradient based on index
+    function updateTitles(index) {
+      const img = document.getElementById("rotating-image");
+      const titleEl = document.getElementById("shared-title");
+      const yearEl = document.getElementById("shared-year");
+
+      if (img) {
+        // Update image source and trigger fade-zoom-in animation
+        img.src = images[index];
+        img.classList.remove(
+          "fade-in-right",
+          "fade-in-std",
+          "zoom-in",
+          "fade-zoom-in"
+        );
+        void img.offsetWidth; // Trigger reflow to restart animation
+        img.classList.add("fade-zoom-in");
+      }
+
+      if (titleEl) {
+        // Update title text
+        titleEl.textContent = titleMap[index].title;
+      }
+
+      if (yearEl) {
+        // Update year text
+        yearEl.textContent = titleMap[index].year;
+      }
+
+      if (backgroundDiv) {
+        // Reset and apply new gradient classes for the dynamic background
+        backgroundDiv.className =
+          "relative left-1/2 -z-10 aspect-1155/678 w-144.5 max-w-none -translate-x-1/2 rotate-30 opacity-20 sm:left-[calc(50%-40rem)] sm:w-288.75";
+        backgroundDiv.classList.add(
+          "bg-gradient-to-tr",
+          ...bgStyles[index].split(" ")
+        );
+      }
+    }
+
+    // Initial update on page load to set first image and titles
+    requestAnimationFrame(() => {
+      updateTitles(activeIndex);
+    });
+    // Ensure vertical scrolling is enabled
+    document.body.style.overflowY = "auto";
+
+    // Cycle through images, titles, and backgrounds every 6 seconds
+    setInterval(() => {
+      activeIndex = (activeIndex + 1) % titleMap.length;
+      updateTitles(activeIndex);
+    }, 6000);
+  </script>
+
+  <!-- Inline module script to handle logo inversion logic -->
+  <script type="module" src="/scripts/logoInvertHome.js" is:inline></script>
 </BaseLayout>
-
-<script is:inline>
-  const images = [
-    "/images/mother_hood.jpg",
-    "/images/the_pact.png",
-    "/images/the_trick.png",
-  ];
-
-  const backgroundDiv = document.querySelector(".dynamic-bg");
-  const bgStyles = [
-    "from-[#d334d3] to-[#344ed3]", // mother_hood.jpg
-    "from-[#344ed3] to-[#60a5fa]", // the_pact.png
-    "from-[#d3a634] to-[#d36e34]", // the_trick.png
-  ];
-
-  const titleMap = [
-    { year: "2024", title: "MOTHER HOOD" },
-    { year: "2020", title: "THE PACT" },
-    { year: "2018", title: "THE TRICK" },
-  ];
-  let activeIndex = 0;
-
-  function updateTitles(index) {
-    const img = document.getElementById("rotating-image");
-    const titleEl = document.getElementById("shared-title");
-    const yearEl = document.getElementById("shared-year");
-
-    if (img) {
-      img.src = images[index];
-      img.classList.remove(
-        "fade-in-right",
-        "fade-in-std",
-        "zoom-in",
-        "fade-zoom-in"
-      );
-      void img.offsetWidth;
-      img.classList.add("fade-zoom-in");
-    }
-
-    if (titleEl) {
-      titleEl.textContent = titleMap[index].title;
-    }
-
-    if (yearEl) {
-      yearEl.textContent = titleMap[index].year;
-    }
-
-    if (backgroundDiv) {
-      backgroundDiv.className =
-        "relative left-1/2 -z-10 aspect-1155/678 w-144.5 max-w-none -translate-x-1/2 rotate-30 opacity-20 sm:left-[calc(50%-40rem)] sm:w-288.75";
-      backgroundDiv.classList.add(
-        "bg-gradient-to-tr",
-        ...bgStyles[index].split(" ")
-      );
-    }
-  }
-
-  // Initial update on load
-  requestAnimationFrame(() => {
-    updateTitles(activeIndex);
-  });
-  document.body.style.overflowY = "auto";
-
-  // Cycle title and image every 6 seconds
-  setInterval(() => {
-    activeIndex = (activeIndex + 1) % titleMap.length;
-    updateTitles(activeIndex);
-  }, 6000);
-</script>

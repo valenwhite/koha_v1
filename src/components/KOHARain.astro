@@ -1,7 +1,3 @@
----
-
----
-
 <style>
   * {
     margin: 0;
@@ -18,23 +14,23 @@
     align-items: center;
     font-family: sans-serif;
     font-size: 1vw;
-    line-height: 1vw;
+    line-height: 1.5vw;
   }
 
   .row {
     display: flex;
-    height: 0.65vw;
+    height: 1.07vw;
   }
 
   .row.flip-v-spacing {
-    margin-top: 0.01vw;
+    margin-top: 0vw;
   }
 
   .char {
     display: inline-block;
-    height: 0.89vw;
-    font-size: 1vw;
-    line-height: 1;
+    height: 0.13vw;
+    font-size: 1.5vw;
+    line-height: 0.15;
     vertical-align: bottom;
     opacity: 0;
     animation: fade-in 0.1s ease-out forwards;
@@ -69,34 +65,26 @@
 
 <div class="rain-grid">
   {
-    Array.from({ length: 85 }).map((_, rowIndex) => {
+    Array.from({ length: 55 }).map((_, rowIndex) => {
       const baseChars = ["K", "O", "H", "A", "H", "O", "K"];
       const flipRow = rowIndex % 2 !== 0;
 
       const hiddenIndices = {
-        62: [0], // slight centre crack
-        63: [],
-        64: [6],
-        65: [0, 4],
-        66: [1, 5],
-        67: [0, 5],
-        68: [0, 1, 6],
-        69: [1],
-        70: [0, 4, 5, 6],
-        71: [2, 6], // edge starts to break
-        72: [0, 1, 6],
-        73: [0, 6],
-        74: [0, 1, 5, 6], // small chunk breaks off right
-        75: [0, 2, 5, 6], // inconsistent inner break
-        76: [0, 1, 5, 6],
-        77: [0, 1, 3, 4, 6], // central letter hit starts
-        78: [0, 1, 3, 5, 6], // spreading centre failure
-        79: [0, 1, 2, 4, 5, 6], // fragmented "V" look
-        80: [0, 1, 3, 4, 5, 6],
-        81: [0, 1, 2, 3, 5, 6],
-        82: [0, 1, 2, 3, 4, 5, 6], // complete loss except for col 3
-        83: [0, 1, 2, 3, 4, 5, 6], // full breakdown
-        84: [0, 1, 2, 4, 5, 6],
+        40: [0],
+        41: [],
+        42: [6],
+        43: [1, 5],
+        44: [0, 5],
+        45: [1],
+        46: [0, 4, 5, 6],
+        47: [2, 6],
+        48: [0, 1, 6],
+        49: [0, 2, 5, 6],
+        50: [0, 1, 5, 6],
+        51: [0, 1, 3, 4, 6],
+        52: [0, 1, 3, 5, 6],
+        53: [0, 1, 3, 4, 5, 6],
+        54: [0, 1, 2, 3, 5, 6],
       };
 
       // Generate random delays for characters in this row
