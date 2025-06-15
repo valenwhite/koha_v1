@@ -8,9 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const isOpen = !menu.classList.contains('hidden');
     if (menu.classList.contains('hidden')) {
       menu.classList.remove('hidden');
+      void menu.offsetHeight;
       menu.classList.add('flex');
     } else {
       menu.classList.remove('flex');
+      void menu.offsetHeight;
       menu.classList.add('hidden');
     }
     menuOpen.classList.toggle('hidden');
