@@ -150,7 +150,7 @@ body::-webkit-scrollbar {
   position: absolute;
   left: 0;
   bottom: 0;
-  height: 4px;
+  height: 3px;
   width: 100%;
   background-color: currentColor;
   transform: scaleX(0);

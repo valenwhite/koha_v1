@@ -48,14 +48,23 @@ import "../styles/global.css";
     <!-- Titles container positioned relative to the image -->
     <div
       id="shared-titles"
-      class="absolute bottom-50 left-4 z-20 flex flex-col gap-10 lg:items-end lg:right-4 lg:flex lg:static lg:gap-0 lg:pt-3"
+      class="absolute bottom-50 left-4 z-20 flex flex-col gap-6 lg:items-end lg:right-4 lg:flex lg:static lg:gap-0 lg:pt-3"
     >
       <!-- Dynamic main title text -->
       <h1
         id="shared-title"
-        class="text-6xl lg:text-8xl soleil text-white lg:text-black text-left lg:text-right"
+        class="text-5xl lg:text-8xl soleil text-white lg:text-black text-left lg:text-right"
       >
       </h1>
+      <div class="relative">
+        <div
+          class="absolute z-50 invert pointer-events-none select-none rotate-270 -translate-y-47.5 translate-x-37 lg:hidden"
+          style="width: fit-contentpx; height: fit-content;"
+          aria-hidden="true"
+        >
+          <KOHARainNoScale />
+        </div>
+      </div>
       <!-- Dynamic year text associated with the title -->
       <p
         id="shared-year"
@@ -63,12 +72,6 @@ import "../styles/global.css";
       >
       </p>
       <!-- Fixed rain animation for smaller screens, hidden on large screens -->
-      <div
-        class="fixed z-50 invert rotate-270 translate-x-36 -translate-y-75.5 scale-50 pointer-events-none select-none lg:hidden"
-        aria-hidden="true"
-      >
-        <KOHARainNoScale />
-      </div>
     </div>
   </div>
 
