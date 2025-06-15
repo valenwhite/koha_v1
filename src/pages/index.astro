@@ -27,12 +27,21 @@ import "../styles/global.css";
     <div
       class="relative w-full h-full lg:rounded lg:aspect-[21/9] overflow-hidden"
     >
-      <!-- Image element that updates source every 6 seconds with fade-zoom-in animation -->
+      <!-- Preloaded and stacked images with fade transitions -->
       <img
-        id="rotating-image"
         src="/images/mother_hood.jpg"
+        alt="Mother Hood"
+        class="rotating-image absolute inset-0 w-full h-full object-cover object-[78%_center] z-0"
+      />
+      <img
+        src="/images/the_pact.png"
+        alt="The Pact"
+        class="rotating-image absolute inset-0 w-full h-full object-cover object-[78%_center] z-0"
+      />
+      <img
+        src="/images/the_trick.png"
         alt="The Trick"
-        class="fade-zoom-in relative mx-auto z-10 h-full w-full object-cover object-[78%_center]"
+        class="rotating-image absolute inset-0 w-full h-full object-cover object-[78%_center] z-0"
       />
     </div>
 
@@ -104,22 +113,20 @@ import "../styles/global.css";
 
     // Function to update the image, titles, and background gradient based on index
     function updateTitles(index) {
-      const img = document.getElementById("rotating-image");
+      const allImages = document.querySelectorAll(".rotating-image");
+      allImages.forEach((imgEl, i) => {
+        if (i === index) {
+          imgEl.classList.remove("z-0");
+          imgEl.classList.add("z-10", "fade-zoom-in");
+          void imgEl.offsetWidth; // reflow to retrigger animation
+        } else {
+          imgEl.classList.remove("z-10", "fade-zoom-in");
+          imgEl.classList.add("z-0");
+        }
+      });
+
       const titleEl = document.getElementById("shared-title");
       const yearEl = document.getElementById("shared-year");
-
-      if (img) {
-        // Update image source and trigger fade-zoom-in animation
-        img.src = images[index];
-        img.classList.remove(
-          "fade-in-right",
-          "fade-in-std",
-          "zoom-in",
-          "fade-zoom-in"
-        );
-        void img.offsetWidth; // Trigger reflow to restart animation
-        img.classList.add("fade-zoom-in");
-      }
 
       if (titleEl) {
         // Update title text
